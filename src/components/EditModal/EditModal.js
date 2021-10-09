@@ -15,8 +15,10 @@ export default function EditModal(props) {
         const email = e.target.email.value;
         const language = e.target.language.value;
         const admin = e.target.admin.checked;
-        const id =  data.length + 1; 
-        setData([{id, name, lastname, admin, email, language},...data]);
+        const id =  item.id
+        const personArray = [{ name, lastname, email, language, admin, id}]
+        let nuewData = data.map(obj => personArray.find(o => o.id === obj.id) || obj);
+        setData(nuewData);
         setShowEditModal(false)
     }
 
@@ -34,7 +36,7 @@ export default function EditModal(props) {
                 <Label sm={3}>ID</Label>
                 <Col sm={9}>
                     <input className="form-control"  type="text"
-                                name="name"
+                                name="id"
                                 readOnly
                                 value={item.id}
                                 />
@@ -49,7 +51,7 @@ export default function EditModal(props) {
                     <input className="form-control"  type="text"
                                 name="name"
                                 placeholder="Juan"
-                                value={item.name}
+                                defaultValue={item.name}
                                 required
                                 />
                                </Col> 
@@ -62,7 +64,7 @@ export default function EditModal(props) {
                             required
                             placeholder="Hdez"
                             name="lastname"
-                            value={item.lastname}
+                            defaultValue={item.lastname}
                     />
                     </Col>
                 </FormGroup>
@@ -74,7 +76,7 @@ export default function EditModal(props) {
                             required
                             placeholder="hello@hello.com"
                             name="email"
-                            value={item.email}
+                            defaultValue={item.email}
                     />
                     </Col>
                 </FormGroup>
@@ -82,7 +84,7 @@ export default function EditModal(props) {
                 <FormGroup row className='mt-2'>
                         <Label  sm={3}>Select</Label>
                         <Col sm={9}>
-                        <Input type="select" name="select" name="language" value={item.language}>
+                        <Input type="select" name="select" name="language" defaultValue={item.language}>
                             <option>ES</option>
                             <option>EN</option>
                             <option>PT</option>
@@ -94,7 +96,7 @@ export default function EditModal(props) {
                     <Label  sm={3}>Is Admin</Label>
                     <Col sm={9}>
                     <Input  type="checkbox"
-                            name="admin" checked={item.admin}
+                            name="admin" defaultChecked={item.admin}
                     />
                     </Col>
                 </FormGroup>

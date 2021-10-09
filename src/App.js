@@ -34,20 +34,20 @@ function App() {
   const editFn = (item) => {
     setShowEditModal(true);
     setItem(item);
-    console.log(item)
  }
 
  const deleteFn = (id) => {
-   console.log("id:", id)
-   const newdata = data.filter(e => e.id !== id );
-   setData(newdata);
+   let opcion = window.confirm("Are you sure you want to delete"+id);
+   if (opcion == true) {
+      const newdata = data.filter(e => e.id !== id );
+      setData(newdata)
+    }
 }
 
  const restartFn = () => {
     setData(initialState);
  }
 
- console.log(data)
   
   return (
     <>
