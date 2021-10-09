@@ -9,8 +9,11 @@ import React, {useState} from "react"
 import AddModal from './components/AddModal';
 import EditModal from './components/EditModal';
 import Footer from './components/Footer';
+import axios from 'axios';
 
 import { BsFillPencilFill, BsTrash } from "react-icons/bs";
+
+const URL = "https://jsonplaceholder.typicode.com/users"
 
 function App() {
   const initialState = [
@@ -48,6 +51,50 @@ function App() {
     setData(initialState);
  }
 
+ const loadAxios = () => {
+   axios.get(URL).then(resp => {
+        const nuewData = []
+        const dataAxios = resp.data
+        
+        dataAxios.map(item => {
+          nuewData.push(
+                          {id: item.id,     
+                          name: item.name.split(" ")[0],
+                          lastname: item.name.split(" ")[1],
+                          email: item.email,
+                          admin: Math.random() < 0.5,
+                          language: "ES"},
+                       )
+        })
+        setData(nuewData)
+    });
+ }
+
+
+   const loadFetch = async () => {
+    const nuewData = []
+    try {
+    let res = await fetch(URL);
+    const dataFetch  = await res.json();
+    dataFetch.map(item => {
+      nuewData.push(
+                      {id: item.id,     
+                      name: item.name.split(" ")[0],
+                      lastname: item.name.split(" ")[1],
+                      email: item.email,
+                      admin: Math.random() < 0.5,
+                      language: "ES"},
+                   )
+    })
+    setData(nuewData)
+
+    }
+       catch (error) {
+          console.log(error);
+      }
+
+  }
+
   
   return (
     <>
@@ -55,8 +102,8 @@ function App() {
         <br></br>
           <Button color="primary" color="success" onClick={()=>insertFn()}  className='m-2'>Insert New Person</Button>
           <Button color="primary"  onClick={()=>restartFn()}  className='m-2'>Restart Data</Button>
-          <Button onClick={()=>restartFn()}  className='m-2'>Load with Axios</Button>
-          <Button onClick={()=>restartFn()}  className='m-2'>Load with Fech</Button>
+          <Button onClick={()=>loadAxios()}  className='m-2'>Load with Axios</Button>
+          <Button onClick={()=>loadFetch()}  className='m-2'>Load with Fech</Button>
         <br></br>
         <Table responsive>
             <thead>
